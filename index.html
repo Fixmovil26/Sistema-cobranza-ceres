@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>FIX MOVIL</title>
+<style>
+:root{
+  --bg:#eef2ff;
+  --card:#fff;
+  --accent:#3b82f6;
+  --paid:#c8f7c5;
+  --partial:#ffffc5; /* Amarillo para pagos parciales */
+  --pending:#f9fafb; /* Fondo por defecto */
+  --shadow:0 15px 30px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;font-family:Arial}
+body{
+  margin:0;
+  background:var(--bg);
+  padding:20px;
+}
+h1{text-align:center;margin-bottom:20px}
+.card{
+  background:var(--card);
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+}
+.calendar{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+}
+.day{
+  min-width:90px;
+  padding:14px;
+  border-radius:16px;
+  text-align:center;
+  cursor:pointer;
+  background:#f8fafc;
+}
+.day.active{
+  outline:3px solid var(--accent);
+}
+.actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+button{
+  border:none;
+  border-radius:999px;
+  padding:10px 16px;
+  cursor:pointer;
+  background:var(--accent);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+button.alt{
+  background:#e0e7ff;
+  color:#1e3a8a;
+}
+#filtroEstado {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 12px;
+}
+th{
+  font-size:14px;
+  color:#555;
+  text-align:left;
+}
+td{
+  background:var(--pending);
+  padding:12px;
+  border-radius:14px;
+}
+tr.paid td{background:var(--paid)}
+tr.partial td{background:var(--partial)}
+input{
+  width:100%;
+  padding:8px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+.cantidad{width:60px}
+.resumen{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.resumen div{
+  background:#fff;
+  padding:12px 18px;
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+<h1>FIX MOVIL</h1>
+<div class="card">
+  <div class="calendar" id="calendar"></div>
+</div>
+<div class="card">
+  <input id="buscador" placeholder="🔍 Buscar cliente..." oninput="buscarCliente()">
+</div>
+<div class="card actions">
+  <button onclick="nuevaVenta()">➕ Nueva venta</button>
+  <button class="alt" onclick="descargarTXT()">📄 TXT Diario</button>
+  <button class="alt" onclick="descargarDeudores()">📄 TXT Deudores</button>
+  <button class="alt" onclick="document.getElementById('fileTXT').click()">📂 Cargar TXT</button>
+  <button class="alt" onclick="enviarWhatsApp()">📲 TXT Cobrar</button>
+  <button class="alt" onclick="limpiarDia()">🗑️ Limpiar Día</button>
+</div>
+<div class="card">
+  <select id="filtroEstado" onchange="filtrarTabla()">
+    <option value="Todo">Todo</option>
+    <option value="Pagado">Pagaron</option>
+    <option value="Pendiente">No Pagaron</option>
+  </select>
+</div>
+<input type="file" id="fileTXT" accept=".txt" style="display:none" onchange="cargarTXT(event)">
+<div class="card">
+<table id="tabla">
+<thead>
+<tr>
+<th>Cliente</th>
+<th>Modelo</th>
+<th>Precio</th>
+<th>Cant.</th>
+<th>Fecha / Hora</th>
+<th>Efectivo</th>
+<th>Yape</th>
+<th>Saldo</th>
+<th>Estado</th>
+<th></th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+<div class="resumen">
+  <div>💵 Efectivo: S/ <span id="totalEfectivo">0</span></div>
+  <div>📱 Yape: S/ <span id="totalYape">0</span></div>
+  <div>💰 Total: S/ <span id="totalDia">0</span></div>
+</div>
+<!-- ================= FIREBASE ================= -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, getDocs,
+  query, where, deleteDoc, doc, updateDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+/* 🔥 TU CONFIG - REEMPLAZA CON TUS VALORES REALES DE FIREBASE */
+const firebaseConfig = {
+  apiKey: "AIzaSyDn0Dlmu6JPdUKMW4jKx1ljdHp_wB2lJkg",
+  authDomain: "fixmovil-26.firebaseapp.com",
+  projectId: "fixmovil-26",
+  storageBucket: "fixmovil-26.firebasestorage.app",
+  messagingSenderId: "951664762630",
+  appId: "1:951664762630:web:0f23c5c00a55362a10c887",
+  measurementId: "G-78DPDPQMZP"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const ventasCollection = collection(db, "ventas");
+/* ================= FECHA ================= */
+let selectedDate = new Date().toISOString().slice(0,10);
+/* ================= CALENDARIO ================= */
+const calendar = document.getElementById("calendar");
+function renderCalendar(){
+  calendar.innerHTML="";
+  for(let i=-3;i<=3;i++){
+    const d=new Date();
+    d.setDate(d.getDate()+i);
+    const iso=d.toISOString().slice(0,10);
+    const div=document.createElement("div");
+    div.className="day"+(iso===selectedDate?" active":"");
+    div.innerHTML=`<strong>${d.getDate()}</strong><br>${d.toLocaleDateString("es",{weekday:"short"})}`;
+    div.onclick=()=>{selectedDate=iso;renderCalendar();cargarDia()};
+    calendar.appendChild(div);
+  }
+}
+renderCalendar();
+/* ================= NUEVA VENTA ================= */
+window.nuevaVenta = async () => {
+  const ahora = new Date();
+  const fh = ahora.toLocaleDateString('es-PE') + ' ' + ahora.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit'});
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+<td><input oninput="updLocal(this)"></td>
+<td><input oninput="updLocal(this)"></td>
+<td><input type="number" value="0" oninput="recalcLocal(this)"></td>
+<td><input class="cantidad" type="number" value="1" min="1" oninput="recalcLocal(this)"></td>
+<td>${fh}</td>
+<td>
+  <button onclick="pagoCompletoLocal(this)">Sí</button>
+  <button onclick="activarMonto(this)">Monto</button>
+  <input type="number" value="0" style="display:none" oninput="recalcLocal(this)">
+</td>
+<td>
+  <button onclick="pagoCompletoLocal(this)">Sí</button>
+  <button onclick="activarMonto(this)">Monto</button>
+  <input type="number" value="0" style="display:none" oninput="recalcLocal(this)">
+</td>
+<td>0.00</td>
+<td>Pendiente</td>
+<td><button onclick="delLocal(this)">❌</button></td>`;
+  document.querySelector('#tabla tbody').appendChild(tr);
+  try {
+    const docRef = await addDoc(ventasCollection, {
+      fecha: selectedDate,
+      cliente: "",
+      modelo: "",
+      precio: 0,
+      cantidad: 1,
+      efectivo: 0,
+      yape: 0,
+      saldo: 0,
+      estado: "Pendiente",
+      fechaHora: fh
+    });
+    tr.dataset.id = docRef.id;
+  } catch (error) {
+    console.error("Error al agregar a Firebase: ", error);
+  }
+  recalcLocal(tr.querySelector('input'));
+};
+/* ================= CARGAR DIA ================= */
+async function cargarDia(){
+  const tbody = document.querySelector("#tabla tbody");
+  tbody.innerHTML = "";
+  let ef = 0, ya = 0;
+  try {
+    const q = query(ventasCollection, where("fecha", "==", selectedDate));
+    const snap = await getDocs(q);
+    snap.forEach(d => {
+      const v = d.data();
+      const tr = document.createElement("tr");
+      if (v.estado === "Pagado") tr.classList.add("paid");
+      else if (v.estado === "Pendiente" && (v.efectivo + v.yape > 0)) tr.classList.add("partial");
+      tr.dataset.id = d.id;
+      tr.innerHTML = `
+<td><input value="${v.cliente || ''}" oninput="updLocal(this)"></td>
+<td><input value="${v.modelo || ''}" oninput="updLocal(this)"></td>
+<td><input type="number" value="${v.precio || 0}" oninput="recalcLocal(this)"></td>
+<td><input class="cantidad" type="number" value="${v.cantidad || 1}" oninput="recalcLocal(this)"></td>
+<td>${v.fechaHora || ''}</td>
+<td>
+  <button onclick="pagoCompletoLocal(this)">Sí</button>
+  <button onclick="activarMonto(this)">Monto</button>
+  <input type="number" value="${v.efectivo || 0}" style="${(v.efectivo || 0) > 0 ? 'display:block' : 'display:none'}" oninput="recalcLocal(this)">
+</td>
+<td>
+  <button onclick="pagoCompletoLocal(this)">Sí</button>
+  <button onclick="activarMonto(this)">Monto</button>
+  <input type="number" value="${v.yape || 0}" style="${(v.yape || 0) > 0 ? 'display:block' : 'display:none'}" oninput="recalcLocal(this)">
+</td>
+<td>${(v.saldo || 0).toFixed(2)}</td>
+<td>${v.estado || 'Pendiente'}</td>
+<td><button onclick="delLocal(this)">❌</button></td>`;
+      tbody.appendChild(tr);
+      ef += v.efectivo || 0;
+      ya += v.yape || 0;
+    });
+    document.getElementById("totalEfectivo").innerText = ef.toFixed(2);
+    document.getElementById("totalYape").innerText = ya.toFixed(2);
+    document.getElementById("totalDia").innerText = (ef + ya).toFixed(2);
+    filtrarTabla();
+  } catch (error) {
+    console.error("Error al cargar día: ", error);
+  }
+}
+cargarDia();
+/* ================= UPDATE LOCAL Y SYNC ================= */
+window.updLocal = (el) => {
+  const tr = el.closest('tr');
+  const id = tr.dataset.id;
+  const field = el.parentElement.cellIndex === 0 ? 'cliente' : 'modelo';
+  const value = el.value;
+  if (id) {
+    updateDoc(doc(db, "ventas", id), {[field]: value}).catch(err => console.error("Error updating: ", err));
+  }
+};
+/* ================= RECALC LOCAL Y SYNC ================= */
+window.recalcLocal = (el) => {
+  const tr = el.closest('tr');
+  const id = tr.dataset.id;
+  const p = +tr.querySelector('td:nth-child(3) input').value || 0;
+  const c = +tr.querySelector('td:nth-child(4) input').value || 1;
+  const e = +tr.querySelector('td:nth-child(6) input').value || 0;
+  const y = +tr.querySelector('td:nth-child(7) input').value || 0;
+  const total = p * c;
+  const saldo = total - (e + y);
+  const estado = saldo <= 0 ? "Pagado" : "Pendiente";
+  tr.querySelector('td:nth-child(8)').textContent = saldo.toFixed(2);
+  tr.querySelector('td:nth-child(9)').textContent = estado;
+  tr.classList.remove("paid", "partial");
+  if (estado === "Pagado") tr.classList.add("paid");
+  else if (estado === "Pendiente" && (e + y > 0)) tr.classList.add("partial");
+  actualizarTotalesLocal();
+  if (id) {
+    updateDoc(doc(db, "ventas", id), {precio: p, cantidad: c, efectivo: e, yape: y, saldo, estado}).catch(err => console.error("Error recalculando: ", err));
+  }
+};
+/* ================= PAGOS LOCAL ================= */
+window.pagoCompletoLocal = (btn) => {
+  const tr = btn.closest('tr');
+  const p = +tr.querySelector('td:nth-child(3) input').value || 0;
+  const c = +tr.querySelector('td:nth-child(4) input').value || 1;
+  const total = p * c;
+  const input = btn.parentElement.querySelector('input');
+  input.value = total;
+  input.style.display = 'block';
+  recalcLocal(input);
+};
+window.activarMonto = (btn) => {
+  const i = btn.parentElement.querySelector('input');
+  i.style.display = 'block';
+  i.focus();
+};
+/* ================= ELIMINAR LOCAL ================= */
+window.delLocal = (btn) => {
+  const tr = btn.closest('tr');
+  const id = tr.dataset.id;
+  if (id && confirm("¿Eliminar venta?")) {
+    deleteDoc(doc(db, "ventas", id)).catch(err => console.error("Error eliminando: ", err));
+  }
+  tr.remove();
+  actualizarTotalesLocal();
+};
+/* ================= TOTALES LOCAL ================= */
+function actualizarTotalesLocal() {
+  let ef = 0, ya = 0;
+  document.querySelectorAll('#tabla tbody tr').forEach(tr => {
+    ef += +tr.querySelector('td:nth-child(6) input').value || 0;
+    ya += +tr.querySelector('td:nth-child(7) input').value || 0;
+  });
+  document.getElementById("totalEfectivo").innerText = ef.toFixed(2);
+  document.getElementById("totalYape").innerText = ya.toFixed(2);
+  document.getElementById("totalDia").innerText = (ef + ya).toFixed(2);
+}
+/* ================= FILTRO ================= */
+window.filtrarTabla = () => {
+  const filtro = document.getElementById("filtroEstado").value;
+  document.querySelectorAll("#tabla tbody tr").forEach(tr => {
+    const estado = tr.querySelector("td:nth-child(9)").textContent;
+    tr.style.display = (filtro === "Todo" || estado === filtro) ? "" : "none";
+  });
+};
+/* ================= BUSCAR ================= */
+window.buscarCliente = () => {
+  const q = document.getElementById("buscador").value.toLowerCase();
+  document.querySelectorAll("#tabla tbody tr").forEach(r => {
+    r.style.display = r.children[0].firstChild.value.toLowerCase().includes(q) ? "" : "none";
+  });
+};
+/* ================= LIMPIAR DÍA ================= */
+window.limpiarDia = async () => {
+  if (confirm("¿Eliminar todas las ventas del día?")) {
+    try {
+      const q = query(ventasCollection, where("fecha", "==", selectedDate));
+      const snap = await getDocs(q);
+      const deletes = [];
+      snap.forEach(d => deletes.push(deleteDoc(doc(db, "ventas", d.id))));
+      await Promise.all(deletes);
+      await cargarDia();
+    } catch (error) {
+      console.error("Error al limpiar: ", error);
+    }
+  }
+};
+/* ================= DESCARGAR TXT DIARIO ================= */
+window.descargarTXT = async () => {
+  let t = `COBRANZA DIARIA\nFECHA: ${selectedDate}\n----------------\n`;
+  try {
+    const q = query(ventasCollection, where("fecha", "==", selectedDate));
+    const snap = await getDocs(q);
+    snap.forEach(d => {
+      const v = d.data();
+      if (v.estado === 'Pagado') {
+        t += `CLIENTE: ${v.cliente}\nMODELO: ${v.modelo}\nCANTIDAD: ${v.cantidad}\nFECHA/HORA: ${v.fechaHora}\nPRECIO: S/${v.precio}\n----------------\n`;
+      }
+    });
+    t += `RESUMEN\nEFECTIVO: S/${document.getElementById("totalEfectivo").innerText}\nYAPE: S/${document.getElementById("totalYape").innerText}\nTOTAL: S/${document.getElementById("totalDia").innerText}`;
+    descargarArchivo(t, `cobranza_${selectedDate}.txt`);
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+};
+/* ================= DESCARGAR TXT DEUDORES ================= */
+window.descargarDeudores = async () => {
+  let t = `DEUDORES ${selectedDate}\n----------------\n`;
+  try {
+    const q = query(ventasCollection, where("fecha", "==", selectedDate));
+    const snap = await getDocs(q);
+    snap.forEach(d => {
+      const v = d.data();
+      if (v.saldo > 0) {
+        t += `CLIENTE: ${v.cliente}\nMODELO: ${v.modelo}\nCANTIDAD: ${v.cantidad}\nFECHA/HORA: ${v.fechaHora}\nDEUDA: S/${v.saldo.toFixed(2)}\n----------------\n`;
+      }
+    });
+    descargarArchivo(t, `deudores_${selectedDate}.txt`);
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+};
+/* ================= ENVIAR WHATSAPP ================= */
+window.enviarWhatsApp = async () => {
+  let mensaje = `📌 *RECORDATORIO DE PAGO*\n\n`;
+  let hay = false;
+  try {
+    const q = query(ventasCollection, where("fecha", "==", selectedDate), where("estado", "==", "Pendiente"));
+    const snap = await getDocs(q);
+    snap.forEach(d => {
+      const v = d.data();
+      if (v.saldo > 0) {
+        hay = true;
+        mensaje += `👤 Cliente: ${v.cliente}\n📱 Modelo: ${v.modelo}\n💰 Saldo: S/${v.saldo.toFixed(2)}\n\n`;
+      }
+    });
+    if (!hay) { alert("No hay deudas pendientes"); return; }
+    window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+};
+/* ================= CARGAR TXT ================= */
+window.cargarTXT = async (ev) => {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = async (e) => {
+    const bloques = e.target.result.split('----------------');
+    for (const b of bloques) {
+      const clienteMatch = b.match(/CLIENTE:\s*(.*)/);
+      const modeloMatch = b.match(/MODELO:\s*(.*)/);
+      const cantidadMatch = b.match(/CANTIDAD:\s*(\d+)/);
+      const deudaMatch = b.match(/DEUDA:\s*S\/?([\d.]+)/);
+      const fhMatch = b.match(/FECHA\/HORA:\s*(.*)/);
+      if (clienteMatch && modeloMatch && deudaMatch) {
+        const ahora = fhMatch ? fhMatch[1] : new Date().toLocaleString("es-PE");
+        const deuda = parseFloat(deudaMatch[1]);
+        const cantidad = cantidadMatch ? parseInt(cantidadMatch[1]) : 1;
+        const precio = deuda / cantidad;
+        const saldo = deuda;
+        const estado = saldo <= 0 ? "Pagado" : "Pendiente";
+        const docRef = await addDoc(ventasCollection, {
+          fecha: selectedDate,
+          cliente: clienteMatch[1],
+          modelo: modeloMatch[1],
+          precio: precio,
+          cantidad: cantidad,
+          efectivo: 0,
+          yape: 0,
+          saldo: saldo,
+          estado: estado,
+          fechaHora: ahora
+        });
+        // Añadir fila localmente después de guardar
+        const tr = document.createElement('tr');
+        tr.dataset.id = docRef.id;
+        tr.innerHTML = `
+<td><input value="${clienteMatch[1]}" oninput="updLocal(this)"></td>
+<td><input value="${modeloMatch[1]}" oninput="updLocal(this)"></td>
+<td><input type="number" value="${precio}" oninput="recalcLocal(this)"></td>
+<td><input class="cantidad" type="number" value="${cantidad}" oninput="recalcLocal(this)"></td>
+<td>${ahora}</td>
+<td>
+  <button onclick="pagoCompletoLocal(this)">Sí</button>
+  <button onclick="activarMonto(this)">Monto</button>
+  <input type="number" value="0" style="display:none" oninput="recalcLocal(this)">
+</td>
+<td>
+  <button onclick="pagoCompletoLocal(this)">Sí</button>
+  <button onclick="activarMonto(this)">Monto</button>
+  <input type="number" value="0" style="display:none" oninput="recalcLocal(this)">
+</td>
+<td>${saldo.toFixed(2)}</td>
+<td>${estado}</td>
+<td><button onclick="delLocal(this)">❌</button></td>`;
+        document.querySelector('#tabla tbody').appendChild(tr);
+        recalcLocal(tr.querySelector('input'));
+      }
+    }
+  };
+  r.readAsText(file);
+};
+/* ================= FUNCION DESCARGAR ARCHIVO ================= */
+function descargarArchivo(txt, n) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([txt], {type: 'text/plain'}));
+  a.download = n;
+  a.click();
+}
+</script>
+</body>
+</html>
