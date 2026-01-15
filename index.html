@@ -4,112 +4,261 @@
 <meta charset="UTF-8">
 <title>FIX MOVIL</title>
 <style>
-:root{
-  --bg:#eef2ff;
-  --card:#fff;
-  --accent:#3b82f6;
-  --paid:#c8f7c5;
-  --partial:#ffffc5; /* Amarillo para pagos parciales */
-  --pending:#f9fafb; /* Fondo por defecto */
-  --shadow:0 15px 30px rgba(0,0,0,.12);
+:root {
+  --bg: #f8fbff;                    /* blanco muy suave con toque celeste */
+  --bg-gradient: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+  --card: rgba(255, 255, 255, 0.92);
+  --glass: rgba(255, 255, 255, 0.85);
+  --accent: #3b82f6;                /* azul principal */
+  --accent-light: #60a5fa;          /* azul celeste más claro */
+  --accent-glow: rgba(59, 130, 246, 0.25);
+  --text: #0f172a;                  /* negro-azulado oscuro para texto */
+  --text-soft: #475569;
+  --border: rgba(59, 130, 246, 0.18);
+  --shadow: 0 10px 30px rgba(59, 130, 246, 0.12);
+  --shadow-hover: 0 20px 50px rgba(59, 130, 246, 0.22);
+  --radius: 20px;
 }
-*{box-sizing:border-box;font-family:Arial}
-body{
-  margin:0;
-  background:var(--bg);
-  padding:20px;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-h1{text-align:center;margin-bottom:20px}
-.card{
-  background:var(--card);
-  border-radius:22px;
-  padding:18px;
-  margin-bottom:18px;
-  box-shadow:var(--shadow);
+
+body {
+  background: var(--bg-gradient);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  padding: 2.5rem 1.2rem;
 }
-.calendar{
-  display:flex;
-  gap:14px;
-  overflow-x:auto;
+
+/* Header con logo neón */
+.header {
+  text-align: center;
+  margin: 1rem 0 3.5rem;
+  position: relative;
 }
-.day{
-  min-width:90px;
-  padding:14px;
-  border-radius:16px;
-  text-align:center;
-  cursor:pointer;
-  background:#f8fafc;
+
+.logo-title {
+  display: block;
+  max-width: 400px;
+  width: 90vw;
+  margin: 0 auto 1.2rem;
+  filter: 
+    drop-shadow(0 0 12px rgba(59, 130, 246, 0.4))
+    drop-shadow(0 0 28px rgba(96, 165, 250, 0.25));
+  transition: transform 0.4s ease;
 }
-.day.active{
-  outline:3px solid var(--accent);
+
+.logo-title:hover {
+  transform: scale(1.03);
 }
-.actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
+
+.subtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.4rem, 5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: 5px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa, #a5b4fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 12px rgba(59, 130, 246, 0.18);
 }
-button{
-  border:none;
-  border-radius:999px;
-  padding:10px 16px;
-  cursor:pointer;
-  background:var(--accent);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  gap:6px;
+
+/* Cards / contenedores */
+.card, .section {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 1.8rem 2.2rem;
+  margin-bottom: 2.4rem;
+  box-shadow: var(--shadow);
+  transition: all 0.35s ease;
 }
-button.alt{
-  background:#e0e7ff;
-  color:#1e3a8a;
+
+
+.calendar {
+  display: flex;
+  justify-content: center;         
+  gap: 12px;
+  overflow-x: auto;
+  padding: 1.2rem 0;
+  scroll-behavior: smooth;
+  margin: 0 auto;                 
+  max-width: 100%;                 
 }
-#filtroEstado {
-  padding: 8px 12px;
+
+
+@media (min-width: 768px) {
+  .calendar {
+    justify-content: center;
+    max-width: 700px;               
+  }
+}
+
+
+.calendar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.calendar::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.35);
   border-radius: 10px;
-  border: 1px solid #ccc;
-  background: #fff;
+}
+
+
+.day {
+  min-width: 88px;
+  padding: 1.2rem 0.8rem;
+  border-radius: 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--border);
   cursor: pointer;
+  transition: all 0.35s ease;
+  font-weight: 500;
+  color: var(--text-soft);
+  flex-shrink: 0;                   
 }
-table{
-  width:100%;
-  border-collapse:separate;
-  border-spacing:0 12px;
+
+.day:hover {
+  background: rgba(96, 165, 250, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.18);
 }
-th{
-  font-size:14px;
-  color:#555;
-  text-align:left;
+
+.day.active {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: white;
+  border: none;
+  box-shadow: 0 0 28px rgba(59, 130, 246, 0.45);
+  transform: scale(1.09);
 }
-td{
-  background:var(--pending);
-  padding:12px;
-  border-radius:14px;
+
+/* Inputs y select */
+input, select {
+  width: 100%;
+  padding: 1.1rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  color: var(--text);
+  transition: all 0.25s;
 }
-tr.paid td{background:var(--paid)}
-tr.partial td{background:var(--partial)}
-input{
-  width:100%;
-  padding:8px;
-  border-radius:10px;
-  border:1px solid #ccc;
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent-light);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
 }
-.cantidad{width:60px}
-.resumen{
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
+
+/* Botones estilo píldora con glow */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 2rem 0 2.5rem;
 }
-.resumen div{
-  background:#fff;
-  padding:12px 18px;
-  border-radius:18px;
-  box-shadow:var(--shadow);
-  font-weight:bold;
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.95rem 1.9rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button.primary {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  color: white;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+button.secondary {
+  background: white;
+  color: var(--accent);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(59, 130, 246, 0.35);
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+}
+
+th {
+  color: var(--accent);
+  font-weight: 600;
+  text-align: left;
+  padding: 0 0 1rem;
+  font-size: 0.92rem;
+}
+
+td {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1.2rem 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+tr.paid td {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+tr.partial td {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+/* Resumen */
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.6rem;
+  margin-top: 3rem;
+}
+
+.resumen div {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: all 0.35s;
+}
+
+.resumen div:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
 }
 </style>
 </head>
 <body>
-<h1>FIX MOVIL</h1>
+<header class="header">
+  <img src="imgFixSist/titleFIX.png" alt="FixMovil" class="logo-title">
+</header>
 <div class="card">
   <div class="calendar" id="calendar"></div>
 </div>
