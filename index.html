@@ -15,9 +15,9 @@
   --text: #0f172a;                  /* negro-azulado oscuro para texto */
   --text-soft: #475569;
   --border: rgba(59, 130, 246, 0.18);
-  --shadow: 0 10px 30px rgba(59, 130, 246, 0.12);
-  --shadow-hover: 0 20px 50px rgba(59, 130, 246, 0.22);
-  --radius: 20px;
+  --shadow: 0 4px 12px rgba(59, 130, 246, 0.08); /* Reducido shadow */
+  --shadow-hover: 0 8px 20px rgba(59, 130, 246, 0.12); /* Reducido */
+  --radius: 14px;
 }
 
 * {
@@ -31,150 +31,155 @@ body {
   color: var(--text);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
-  padding: 2.5rem 1.2rem;
+  padding: 1rem 0.5rem;
+  font-size: 0.85rem;
 }
 
 /* Header con logo neón */
 .header {
   text-align: center;
-  margin: 1rem 0 3.5rem;
+  margin: 0.3rem 0 1.5rem;
   position: relative;
 }
 
 .logo-title {
   display: block;
-  max-width: 400px;
-  width: 90vw;
-  margin: 0 auto 1.2rem;
-  filter: 
-    drop-shadow(0 0 12px rgba(59, 130, 246, 0.4))
-    drop-shadow(0 0 28px rgba(96, 165, 250, 0.25));
-  transition: transform 0.4s ease;
+  max-width: 250px;
+  width: 70vw;
+  margin: 0 auto 0.6rem;
+  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.25)); /* Reducido filter */
+  transition: none; /* Removido transition para optimización */
 }
 
 .logo-title:hover {
-  transform: scale(1.03);
+  transform: none; /* Removido scale */
 }
+
+/* Subtitle removido si no necesario, pero lo dejamos sin shadow */
 
 .subtitle {
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1.4rem, 5vw, 2.6rem);
-  font-weight: 800;
-  letter-spacing: 5px;
+  font-size: clamp(1rem, 3.5vw, 1.8rem);
+  font-weight: 900;
+  letter-spacing: 3px;
   background: linear-gradient(90deg, #3b82f6, #60a5fa, #a5b4fc);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 2px 12px rgba(59, 130, 246, 0.18);
+  text-shadow: none; /* Removido shadow */
 }
 
 /* Cards / contenedores */
 .card, .section {
   background: var(--glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Removido backdrop-filter para optimización, ya que es pesado */
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  padding: 1.8rem 2.2rem;
-  margin-bottom: 2.4rem;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
   box-shadow: var(--shadow);
-  transition: all 0.35s ease;
+  transition: none; /* Removido transition */
 }
-
 
 .calendar {
   display: flex;
-  justify-content: center;         
-  gap: 12px;
+  justify-content: center;
+  gap: 6px;
   overflow-x: auto;
-  padding: 1.2rem 0;
+  padding: 0.6rem 0;
   scroll-behavior: smooth;
-  margin: 0 auto;                 
-  max-width: 100%;                 
+  margin: 0 auto;
+  max-width: 100%;
 }
-
 
 @media (min-width: 768px) {
   .calendar {
     justify-content: center;
-    max-width: 700px;               
+    max-width: 550px;
   }
 }
 
-
 .calendar::-webkit-scrollbar {
-  height: 8px;
+  height: 5px;
 }
 
 .calendar::-webkit-scrollbar-thumb {
   background: rgba(59, 130, 246, 0.35);
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
-
 .day {
-  min-width: 88px;
-  padding: 1.2rem 0.8rem;
-  border-radius: 16px;
+  min-width: 65px;
+  padding: 0.6rem 0.5rem;
+  border-radius: 10px;
   text-align: center;
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid var(--border);
   cursor: pointer;
-  transition: all 0.35s ease;
-  font-weight: 500;
+  transition: none; /* Removido transition */
+  font-weight: 600;
   color: var(--text-soft);
-  flex-shrink: 0;                   
+  flex-shrink: 0;
+  font-size: 0.8rem;
 }
 
 .day:hover {
   background: rgba(96, 165, 250, 0.15);
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.18);
+  transform: none; /* Removido translate */
+  box-shadow: none; /* Removido shadow */
 }
 
 .day.active {
   background: linear-gradient(135deg, #3b82f6, #60a5fa);
   color: white;
   border: none;
-  box-shadow: 0 0 28px rgba(59, 130, 246, 0.45);
-  transform: scale(1.09);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.35);
+  transform: none; /* Removido scale */
 }
 
 /* Inputs y select */
 input, select {
   width: 100%;
-  padding: 1.1rem 1.5rem;
-  border-radius: 16px;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.8);
-  font-size: 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--text);
-  transition: all 0.25s;
+  transition: none; /* Removido transition */
 }
 
 input:focus, select:focus {
   outline: none;
   border-color: var(--accent-light);
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  box-shadow: none; /* Removido shadow para optimización */
 }
 
-/* Botones estilo píldora con glow */
+/* Checkbox más grande */
+input[type="checkbox"] {
+  transform: scale(1.5);
+  margin: 0 auto;
+  display: block;
+}
+
+/* Botones */
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 6px;
   justify-content: center;
-  margin: 2rem 0 2.5rem;
+  margin: 1.2rem 0 1.5rem;
 }
 
 button {
   border: none;
   border-radius: 999px;
-  padding: 0.95rem 1.9rem;
-  font-weight: 600;
-  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: all 0.35s ease;
+  transition: none; /* Removido transition */
   position: relative;
   overflow: hidden;
 }
@@ -182,42 +187,44 @@ button {
 button.primary {
   background: linear-gradient(90deg, #3b82f6, #60a5fa);
   color: white;
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 3px 12px rgba(59, 130, 246, 0.2);
 }
 
 button.secondary {
   background: white;
   color: var(--accent);
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 32px rgba(59, 130, 246, 0.35);
+  transform: none;
+  box-shadow: none;
 }
 
 /* Tabla */
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 12px;
+  border-spacing: 0 6px;
 }
 
 th {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 700;
   text-align: left;
-  padding: 0 0 1rem;
-  font-size: 0.92rem;
+  padding: 0 0 0.6rem;
+  font-size: 0.8rem;
 }
 
 td {
   background: rgba(255, 255, 255, 0.85);
-  padding: 1.2rem 1rem;
-  border-radius: 14px;
+  padding: 0.7rem 0.7rem;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  backdrop-filter: blur(8px);
+  /* Removido backdrop-filter */
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 tr.paid td {
@@ -230,28 +237,50 @@ tr.partial td {
   border-color: rgba(245, 158, 11, 0.25);
 }
 
+tr.expense td {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 /* Resumen */
 .resumen {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.6rem;
-  margin-top: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .resumen div {
   background: var(--glass);
-  backdrop-filter: blur(20px);
+  /* Removido backdrop-filter */
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.6rem;
+  padding: 1rem;
   text-align: center;
   box-shadow: var(--shadow);
-  transition: all 0.35s;
+  transition: none;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .resumen div:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-hover);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Nueva sección para búsqueda y filtro */
+.search-filter {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-filter input {
+  flex: 1;
+}
+
+.search-filter select {
+  flex: 0.8;
 }
 </style>
 </head>
@@ -262,30 +291,32 @@ tr.partial td {
 <div class="card">
   <div class="calendar" id="calendar"></div>
 </div>
-<div class="card">
+<div class="card search-filter">
   <input id="buscador" placeholder="🔍 Buscar cliente..." oninput="buscarCliente()">
-</div>
-<div class="card actions">
-  <button onclick="nuevaVenta()">➕ Nueva venta</button>
-  <button class="alt" onclick="descargarTXT()">📄 TXT Diario</button>
-  <button class="alt" onclick="descargarDeudores()">📄 TXT Deudores</button>
-  <button class="alt" onclick="document.getElementById('fileTXT').click()">📂 Cargar TXT</button>
-  <button class="alt" onclick="enviarWhatsApp()">📲 TXT Cobrar</button>
-  <button class="alt" onclick="limpiarDia()">🗑️ Limpiar Día</button>
-</div>
-<div class="card">
   <select id="filtroEstado" onchange="filtrarTabla()">
     <option value="Todo">Todo</option>
     <option value="Pagado">Pagaron</option>
     <option value="Pendiente">No Pagaron</option>
+    <option value="Preferencial">Preferenciales</option>
   </select>
+</div>
+<div class="card actions">
+  <button onclick="nuevaVenta()">➕ Nueva venta</button>
+  <button onclick="nuevoGasto()">💸 Nuevo gasto</button>
+  <button class="alt" onclick="descargarTXT()">📄 TXT Diario</button>
+  <button class="alt" onclick="descargarDeudores()">📄 TXT Deudores</button>
+  <button class="alt" onclick="document.getElementById('fileTXT').click()">📂 Cargar TXT</button>
+  <button class="alt" onclick="enviarWhatsApp()">📲 TXT Cobrar</button>
+  <button class="alt" onclick="resumenPreferenciales()">📊 Resumen Pref.</button>
+  <button class="alt" onclick="limpiarDia()">🗑️ Limpiar Día</button>
 </div>
 <input type="file" id="fileTXT" accept=".txt" style="display:none" onchange="cargarTXT(event)">
 <div class="card">
 <table id="tabla">
 <thead>
 <tr>
-<th>Cliente</th>
+<th>Pref.</th>
+<th>Cliente/Desc</th>
 <th>Modelo</th>
 <th>Precio</th>
 <th>Cant.</th>
@@ -300,9 +331,10 @@ tr.partial td {
 <tbody></tbody>
 </table>
 </div>
-<div class="resumen">
+<div class="resumen" id="resumen">
   <div>💵 Efectivo: S/ <span id="totalEfectivo">0</span></div>
   <div>📱 Yape: S/ <span id="totalYape">0</span></div>
+  <div id="gastosDiv" style="display:none">💸 Gastos: S/ <span id="totalGastos">0</span></div>
   <div>💰 Total: S/ <span id="totalDia">0</span></div>
 </div>
 <!-- ================= FIREBASE ================= -->
@@ -325,6 +357,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const ventasCollection = collection(db, "ventas");
+const gastosCollection = collection(db, "gastos");
 /* ================= FECHA ================= */
 let selectedDate = new Date().toISOString().slice(0,10);
 /* ================= CALENDARIO ================= */
@@ -346,9 +379,11 @@ renderCalendar();
 /* ================= NUEVA VENTA ================= */
 window.nuevaVenta = async () => {
   const ahora = new Date();
-  const fh = ahora.toLocaleDateString('es-PE') + ' ' + ahora.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit'});
+  const fh = ahora.toLocaleDateString('es-PE') + ' ' + ahora.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit', hour12: true}).replace('.', '');
   const tr = document.createElement('tr');
+  tr.classList.add('venta');
   tr.innerHTML = `
+<td><input type="checkbox" onchange="togglePreferencial(this)"></td>
 <td><input oninput="updLocal(this)"></td>
 <td><input oninput="updLocal(this)"></td>
 <td><input type="number" value="0" oninput="recalcLocal(this)"></td>
@@ -379,83 +414,182 @@ window.nuevaVenta = async () => {
       yape: 0,
       saldo: 0,
       estado: "Pendiente",
-      fechaHora: fh
+      fechaHora: fh,
+      timestamp: ahora.getTime(),
+      preferencial: false
     });
     tr.dataset.id = docRef.id;
+    tr.dataset.type = 'venta';
   } catch (error) {
     console.error("Error al agregar a Firebase: ", error);
   }
   recalcLocal(tr.querySelector('input'));
 };
+/* ================= NUEVO GASTO ================= */
+window.nuevoGasto = async () => {
+  const ahora = new Date();
+  const fh = ahora.toLocaleDateString('es-PE') + ' ' + ahora.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit', hour12: true}).replace('.', '');
+  const tr = document.createElement('tr');
+  tr.classList.add('expense');
+  tr.innerHTML = `
+<td>-</td>
+<td><input placeholder="Descripción" oninput="updLocalGasto(this)"></td>
+<td>-</td>
+<td><input type="number" value="0" oninput="recalcGasto(this)"></td>
+<td>1</td>
+<td>${fh}</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>Gasto</td>
+<td><button onclick="delLocal(this)">❌</button></td>`;
+  document.querySelector('#tabla tbody').appendChild(tr);
+  try {
+    const docRef = await addDoc(gastosCollection, {
+      fecha: selectedDate,
+      descripcion: "",
+      monto: 0,
+      fechaHora: fh,
+      timestamp: ahora.getTime()
+    });
+    tr.dataset.id = docRef.id;
+    tr.dataset.type = 'gasto';
+  } catch (error) {
+    console.error("Error al agregar gasto a Firebase: ", error);
+  }
+};
 /* ================= CARGAR DIA ================= */
 async function cargarDia(){
   const tbody = document.querySelector("#tabla tbody");
   tbody.innerHTML = "";
-  let ef = 0, ya = 0;
+  let ef = 0, ya = 0, gastos = 0;
+  let entries = [];
+
+  // Cargar ventas
   try {
-    const q = query(ventasCollection, where("fecha", "==", selectedDate));
-    const snap = await getDocs(q);
-    snap.forEach(d => {
+    const qVentas = query(ventasCollection, where("fecha", "==", selectedDate));
+    const snapVentas = await getDocs(qVentas);
+    snapVentas.forEach(d => {
       const v = d.data();
-      const tr = document.createElement("tr");
-      if (v.estado === "Pagado") tr.classList.add("paid");
-      else if (v.estado === "Pendiente" && (v.efectivo + v.yape > 0)) tr.classList.add("partial");
-      tr.dataset.id = d.id;
-      tr.innerHTML = `
-<td><input value="${v.cliente || ''}" oninput="updLocal(this)"></td>
-<td><input value="${v.modelo || ''}" oninput="updLocal(this)"></td>
-<td><input type="number" value="${v.precio || 0}" oninput="recalcLocal(this)"></td>
-<td><input class="cantidad" type="number" value="${v.cantidad || 1}" oninput="recalcLocal(this)"></td>
-<td>${v.fechaHora || ''}</td>
-<td>
-  <button onclick="pagoCompletoLocal(this)">Sí</button>
-  <button onclick="activarMonto(this)">Monto</button>
-  <input type="number" value="${v.efectivo || 0}" style="${(v.efectivo || 0) > 0 ? 'display:block' : 'display:none'}" oninput="recalcLocal(this)">
-</td>
-<td>
-  <button onclick="pagoCompletoLocal(this)">Sí</button>
-  <button onclick="activarMonto(this)">Monto</button>
-  <input type="number" value="${v.yape || 0}" style="${(v.yape || 0) > 0 ? 'display:block' : 'display:none'}" oninput="recalcLocal(this)">
-</td>
-<td>${(v.saldo || 0).toFixed(2)}</td>
-<td>${v.estado || 'Pendiente'}</td>
-<td><button onclick="delLocal(this)">❌</button></td>`;
-      tbody.appendChild(tr);
-      ef += v.efectivo || 0;
-      ya += v.yape || 0;
+      entries.push({ ...v, id: d.id, type: 'venta', timestamp: v.timestamp || parseFechaHoraToTimestamp(v.fechaHora) });
     });
-    document.getElementById("totalEfectivo").innerText = ef.toFixed(2);
-    document.getElementById("totalYape").innerText = ya.toFixed(2);
-    document.getElementById("totalDia").innerText = (ef + ya).toFixed(2);
-    filtrarTabla();
   } catch (error) {
-    console.error("Error al cargar día: ", error);
+    console.error("Error al cargar ventas: ", error);
   }
+
+  // Cargar gastos
+  try {
+    const qGastos = query(gastosCollection, where("fecha", "==", selectedDate));
+    const snapGastos = await getDocs(qGastos);
+    snapGastos.forEach(d => {
+      const g = d.data();
+      entries.push({ ...g, id: d.id, type: 'gasto', timestamp: g.timestamp || parseFechaHoraToTimestamp(g.fechaHora) });
+    });
+  } catch (error) {
+    console.error("Error al cargar gastos: ", error);
+  }
+
+  // Ordenar por timestamp ascendente
+  entries.sort((a, b) => a.timestamp - b.timestamp);
+
+  // Renderizar
+  entries.forEach(entry => {
+    const tr = document.createElement("tr");
+    tr.dataset.id = entry.id;
+    tr.dataset.type = entry.type;
+    if (entry.type === 'venta') {
+      if (entry.estado === "Pagado") tr.classList.add("paid");
+      else if (entry.estado === "Pendiente" && (entry.efectivo + entry.yape > 0)) tr.classList.add("partial");
+      tr.innerHTML = `
+<td><input type="checkbox" ${entry.preferencial ? 'checked' : ''} onchange="togglePreferencial(this)"></td>
+<td><input value="${entry.cliente || ''}" oninput="updLocal(this)"></td>
+<td><input value="${entry.modelo || ''}" oninput="updLocal(this)"></td>
+<td><input type="number" value="${entry.precio || 0}" oninput="recalcLocal(this)"></td>
+<td><input class="cantidad" type="number" value="${entry.cantidad || 1}" oninput="recalcLocal(this)"></td>
+<td>${entry.fechaHora || ''}</td>
+<td>
+  <button onclick="pagoCompletoLocal(this)">Sí</button>
+  <button onclick="activarMonto(this)">Monto</button>
+  <input type="number" value="${entry.efectivo || 0}" style="${(entry.efectivo || 0) > 0 ? 'display:block' : 'display:none'}" oninput="recalcLocal(this)">
+</td>
+<td>
+  <button onclick="pagoCompletoLocal(this)">Sí</button>
+  <button onclick="activarMonto(this)">Monto</button>
+  <input type="number" value="${entry.yape || 0}" style="${(entry.yape || 0) > 0 ? 'display:block' : 'display:none'}" oninput="recalcLocal(this)">
+</td>
+<td>${(entry.saldo || 0).toFixed(2)}</td>
+<td>${entry.estado || 'Pendiente'}</td>
+<td><button onclick="delLocal(this)">❌</button></td>`;
+      ef += entry.efectivo || 0;
+      ya += entry.yape || 0;
+    } else if (entry.type === 'gasto') {
+      tr.classList.add("expense");
+      tr.innerHTML = `
+<td>-</td>
+<td><input value="${entry.descripcion || ''}" oninput="updLocalGasto(this)"></td>
+<td>-</td>
+<td><input type="number" value="${entry.monto || 0}" oninput="recalcGasto(this)"></td>
+<td>1</td>
+<td>${entry.fechaHora || ''}</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>Gasto</td>
+<td><button onclick="delLocal(this)">❌</button></td>`;
+      gastos += entry.monto || 0;
+    }
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("totalEfectivo").innerText = ef.toFixed(2);
+  document.getElementById("totalYape").innerText = ya.toFixed(2);
+  document.getElementById("totalGastos").innerText = gastos.toFixed(2);
+  document.getElementById("totalDia").innerText = ((ef - gastos) + ya).toFixed(2);
+  document.getElementById("gastosDiv").style.display = gastos > 0 ? 'block' : 'none';
+  filtrarTabla();
 }
 cargarDia();
-/* ================= UPDATE LOCAL Y SYNC ================= */
+/* ================= TOGGLE PREFERENCIAL ================= */
+window.togglePreferencial = (chk) => {
+  const tr = chk.closest('tr');
+  const id = tr.dataset.id;
+  const preferencial = chk.checked;
+  if (id) {
+    updateDoc(doc(db, "ventas", id), {preferencial}).catch(err => console.error("Error updating preferencial: ", err));
+  }
+};
+/* ================= UPDATE LOCAL Y SYNC (VENTAS) ================= */
 window.updLocal = (el) => {
   const tr = el.closest('tr');
   const id = tr.dataset.id;
-  const field = el.parentElement.cellIndex === 0 ? 'cliente' : 'modelo';
+  const field = el.parentElement.cellIndex === 1 ? 'cliente' : 'modelo';
   const value = el.value;
   if (id) {
     updateDoc(doc(db, "ventas", id), {[field]: value}).catch(err => console.error("Error updating: ", err));
   }
 };
-/* ================= RECALC LOCAL Y SYNC ================= */
+/* ================= UPDATE LOCAL Y SYNC (GASTOS) ================= */
+window.updLocalGasto = (el) => {
+  const tr = el.closest('tr');
+  const id = tr.dataset.id;
+  const value = el.value;
+  if (id) {
+    updateDoc(doc(db, "gastos", id), {descripcion: value}).catch(err => console.error("Error updating gasto: ", err));
+  }
+};
+/* ================= RECALC LOCAL Y SYNC (VENTAS) ================= */
 window.recalcLocal = (el) => {
   const tr = el.closest('tr');
   const id = tr.dataset.id;
-  const p = +tr.querySelector('td:nth-child(3) input').value || 0;
-  const c = +tr.querySelector('td:nth-child(4) input').value || 1;
-  const e = +tr.querySelector('td:nth-child(6) input').value || 0;
-  const y = +tr.querySelector('td:nth-child(7) input').value || 0;
+  const p = +tr.querySelector('td:nth-child(4) input').value || 0;
+  const c = +tr.querySelector('td:nth-child(5) input').value || 1;
+  const e = +tr.querySelector('td:nth-child(7) input').value || 0;
+  const y = +tr.querySelector('td:nth-child(8) input').value || 0;
   const total = p * c;
   const saldo = total - (e + y);
   const estado = saldo <= 0 ? "Pagado" : "Pendiente";
-  tr.querySelector('td:nth-child(8)').textContent = saldo.toFixed(2);
-  tr.querySelector('td:nth-child(9)').textContent = estado;
+  tr.querySelector('td:nth-child(9)').textContent = saldo.toFixed(2);
+  tr.querySelector('td:nth-child(10)').textContent = estado;
   tr.classList.remove("paid", "partial");
   if (estado === "Pagado") tr.classList.add("paid");
   else if (estado === "Pendiente" && (e + y > 0)) tr.classList.add("partial");
@@ -464,11 +598,21 @@ window.recalcLocal = (el) => {
     updateDoc(doc(db, "ventas", id), {precio: p, cantidad: c, efectivo: e, yape: y, saldo, estado}).catch(err => console.error("Error recalculando: ", err));
   }
 };
+/* ================= RECALC GASTO ================= */
+window.recalcGasto = (el) => {
+  const tr = el.closest('tr');
+  const id = tr.dataset.id;
+  const monto = +el.value || 0;
+  if (id) {
+    updateDoc(doc(db, "gastos", id), {monto}).catch(err => console.error("Error recalculando gasto: ", err));
+  }
+  actualizarTotalesLocal();
+};
 /* ================= PAGOS LOCAL ================= */
 window.pagoCompletoLocal = (btn) => {
   const tr = btn.closest('tr');
-  const p = +tr.querySelector('td:nth-child(3) input').value || 0;
-  const c = +tr.querySelector('td:nth-child(4) input').value || 1;
+  const p = +tr.querySelector('td:nth-child(4) input').value || 0;
+  const c = +tr.querySelector('td:nth-child(5) input').value || 1;
   const total = p * c;
   const input = btn.parentElement.querySelector('input');
   input.value = total;
@@ -484,47 +628,70 @@ window.activarMonto = (btn) => {
 window.delLocal = (btn) => {
   const tr = btn.closest('tr');
   const id = tr.dataset.id;
-  if (id && confirm("¿Eliminar venta?")) {
-    deleteDoc(doc(db, "ventas", id)).catch(err => console.error("Error eliminando: ", err));
+  const type = tr.dataset.type;
+  if (id && confirm("¿Eliminar?")) {
+    deleteDoc(doc(db, type === 'venta' ? "ventas" : "gastos", id)).catch(err => console.error("Error eliminando: ", err));
   }
   tr.remove();
   actualizarTotalesLocal();
 };
 /* ================= TOTALES LOCAL ================= */
 function actualizarTotalesLocal() {
-  let ef = 0, ya = 0;
+  let ef = 0, ya = 0, gastos = 0;
   document.querySelectorAll('#tabla tbody tr').forEach(tr => {
-    ef += +tr.querySelector('td:nth-child(6) input').value || 0;
-    ya += +tr.querySelector('td:nth-child(7) input').value || 0;
+    if (tr.dataset.type === 'venta') {
+      ef += +tr.querySelector('td:nth-child(7) input')?.value || 0;
+      ya += +tr.querySelector('td:nth-child(8) input')?.value || 0;
+    } else if (tr.dataset.type === 'gasto') {
+      gastos += +tr.querySelector('td:nth-child(4) input')?.value || 0;
+    }
   });
   document.getElementById("totalEfectivo").innerText = ef.toFixed(2);
   document.getElementById("totalYape").innerText = ya.toFixed(2);
-  document.getElementById("totalDia").innerText = (ef + ya).toFixed(2);
+  document.getElementById("totalGastos").innerText = gastos.toFixed(2);
+  document.getElementById("totalDia").innerText = ((ef - gastos) + ya).toFixed(2);
+  document.getElementById("gastosDiv").style.display = gastos > 0 ? 'block' : 'none';
 }
 /* ================= FILTRO ================= */
 window.filtrarTabla = () => {
   const filtro = document.getElementById("filtroEstado").value;
   document.querySelectorAll("#tabla tbody tr").forEach(tr => {
-    const estado = tr.querySelector("td:nth-child(9)").textContent;
-    tr.style.display = (filtro === "Todo" || estado === filtro) ? "" : "none";
+    if (tr.dataset.type === 'gasto') {
+      tr.style.display = (filtro === "Todo" || filtro === "Preferencial") ? "" : "none";
+      return;
+    }
+    const estado = tr.querySelector("td:nth-child(10)").textContent;
+    const isPref = tr.querySelector('input[type="checkbox"]').checked;
+    if (filtro === "Todo") {
+      tr.style.display = "";
+    } else if (filtro === "Preferencial") {
+      tr.style.display = isPref ? "" : "none";
+    } else {
+      tr.style.display = (estado === filtro) ? "" : "none";
+    }
   });
 };
 /* ================= BUSCAR ================= */
 window.buscarCliente = () => {
   const q = document.getElementById("buscador").value.toLowerCase();
   document.querySelectorAll("#tabla tbody tr").forEach(r => {
-    r.style.display = r.children[0].firstChild.value.toLowerCase().includes(q) ? "" : "none";
+    const text = r.children[1].firstChild.value.toLowerCase();
+    r.style.display = text.includes(q) ? "" : "none";
   });
 };
 /* ================= LIMPIAR DÍA ================= */
 window.limpiarDia = async () => {
-  if (confirm("¿Eliminar todas las ventas del día?")) {
+  if (confirm("¿Eliminar todas las ventas y gastos del día?")) {
     try {
-      const q = query(ventasCollection, where("fecha", "==", selectedDate));
-      const snap = await getDocs(q);
-      const deletes = [];
-      snap.forEach(d => deletes.push(deleteDoc(doc(db, "ventas", d.id))));
-      await Promise.all(deletes);
+      const qVentas = query(ventasCollection, where("fecha", "==", selectedDate));
+      const snapVentas = await getDocs(qVentas);
+      const deletesVentas = snapVentas.docs.map(d => deleteDoc(doc(db, "ventas", d.id)));
+
+      const qGastos = query(gastosCollection, where("fecha", "==", selectedDate));
+      const snapGastos = await getDocs(qGastos);
+      const deletesGastos = snapGastos.docs.map(d => deleteDoc(doc(db, "gastos", d.id)));
+
+      await Promise.all([...deletesVentas, ...deletesGastos]);
       await cargarDia();
     } catch (error) {
       console.error("Error al limpiar: ", error);
@@ -543,7 +710,14 @@ window.descargarTXT = async () => {
         t += `CLIENTE: ${v.cliente}\nMODELO: ${v.modelo}\nCANTIDAD: ${v.cantidad}\nFECHA/HORA: ${v.fechaHora}\nPRECIO: S/${v.precio}\n----------------\n`;
       }
     });
-    t += `RESUMEN\nEFECTIVO: S/${document.getElementById("totalEfectivo").innerText}\nYAPE: S/${document.getElementById("totalYape").innerText}\nTOTAL: S/${document.getElementById("totalDia").innerText}`;
+    t += `\nGASTOS:\n`;
+    const qGastos = query(gastosCollection, where("fecha", "==", selectedDate));
+    const snapGastos = await getDocs(qGastos);
+    snapGastos.forEach(d => {
+      const g = d.data();
+      t += `DESCRIPCIÓN: ${g.descripcion}\nMONTO: S/${g.monto}\nFECHA/HORA: ${g.fechaHora}\n----------------\n`;
+    });
+    t += `RESUMEN\nEFECTIVO: S/${document.getElementById("totalEfectivo").innerText}\nYAPE: S/${document.getElementById("totalYape").innerText}\nGASTOS: S/${document.getElementById("totalGastos").innerText}\nTOTAL: S/${document.getElementById("totalDia").innerText}`;
     descargarArchivo(t, `cobranza_${selectedDate}.txt`);
   } catch (error) {
     console.error("Error: ", error);
@@ -586,6 +760,46 @@ window.enviarWhatsApp = async () => {
     console.error("Error: ", error);
   }
 };
+/* ================= RESUMEN PREFERENCIALES ================= */
+window.resumenPreferenciales = async () => {
+  let mensaje = `📊 *RESUMEN CLIENTES PREFERENCIALES*\nFECHA: ${selectedDate}\n\n`;
+  let grupos = {};
+  try {
+    const q = query(ventasCollection, where("fecha", "==", selectedDate), where("preferencial", "==", true));
+    const snap = await getDocs(q);
+    snap.forEach(d => {
+      const v = d.data();
+      if (!grupos[v.cliente]) grupos[v.cliente] = { entries: [], total: 0, pagado: 0, saldo: 0 };
+      grupos[v.cliente].entries.push(v);
+      grupos[v.cliente].total += (v.precio * v.cantidad);
+      grupos[v.cliente].pagado += (v.efectivo + v.yape);
+      grupos[v.cliente].saldo += v.saldo;
+    });
+    for (const cliente in grupos) {
+      const g = grupos[cliente];
+      mensaje += `👤 ${cliente}\n`;
+      g.entries.forEach(e => {
+        mensaje += `- Modelo: ${e.modelo}, Cant: ${e.cantidad}, Precio: S/${e.precio}, FH: ${e.fechaHora}\n`;
+      });
+      mensaje += `Total: S/${g.total.toFixed(2)}\nPagado: S/${g.pagado.toFixed(2)}\nSaldo: S/${g.saldo.toFixed(2)}\n\n`;
+    }
+    if (Object.keys(grupos).length === 0) { alert("No hay clientes preferenciales"); return; }
+    window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+};
+/* ================= PARSE FECHA HORA TO TIMESTAMP ================= */
+function parseFechaHoraToTimestamp(fh) {
+  const [fecha, horaAmPm] = fh.split(' ');
+  const [dia, mes, ano] = fecha.split('/');
+  let [hora, min] = horaAmPm.split(':');
+  const ampm = horaAmPm.slice(-4);
+  if (ampm === 'p.m.' && hora !== '12') hora = parseInt(hora) + 12;
+  if (ampm === 'a.m.' && hora === '12') hora = 0;
+  const date = new Date(ano, mes - 1, dia, hora, min);
+  return date.getTime();
+}
 /* ================= CARGAR TXT ================= */
 window.cargarTXT = async (ev) => {
   const file = ev.target.files[0];
@@ -600,12 +814,13 @@ window.cargarTXT = async (ev) => {
       const deudaMatch = b.match(/DEUDA:\s*S\/?([\d.]+)/);
       const fhMatch = b.match(/FECHA\/HORA:\s*(.*)/);
       if (clienteMatch && modeloMatch && deudaMatch) {
-        const ahora = fhMatch ? fhMatch[1] : new Date().toLocaleString("es-PE");
+        const fh = fhMatch ? fhMatch[1].trim() : new Date().toLocaleString("es-PE", {hour12: true}).replace('.', '');
         const deuda = parseFloat(deudaMatch[1]);
         const cantidad = cantidadMatch ? parseInt(cantidadMatch[1]) : 1;
         const precio = deuda / cantidad;
         const saldo = deuda;
         const estado = saldo <= 0 ? "Pagado" : "Pendiente";
+        const timestamp = parseFechaHoraToTimestamp(fh);
         const docRef = await addDoc(ventasCollection, {
           fecha: selectedDate,
           cliente: clienteMatch[1],
@@ -616,17 +831,20 @@ window.cargarTXT = async (ev) => {
           yape: 0,
           saldo: saldo,
           estado: estado,
-          fechaHora: ahora
+          fechaHora: fh,
+          timestamp: timestamp,
+          preferencial: false
         });
-        // Añadir fila localmente después de guardar
         const tr = document.createElement('tr');
         tr.dataset.id = docRef.id;
+        tr.dataset.type = 'venta';
         tr.innerHTML = `
+<td><input type="checkbox" onchange="togglePreferencial(this)"></td>
 <td><input value="${clienteMatch[1]}" oninput="updLocal(this)"></td>
 <td><input value="${modeloMatch[1]}" oninput="updLocal(this)"></td>
 <td><input type="number" value="${precio}" oninput="recalcLocal(this)"></td>
 <td><input class="cantidad" type="number" value="${cantidad}" oninput="recalcLocal(this)"></td>
-<td>${ahora}</td>
+<td>${fh}</td>
 <td>
   <button onclick="pagoCompletoLocal(this)">Sí</button>
   <button onclick="activarMonto(this)">Monto</button>
@@ -644,6 +862,7 @@ window.cargarTXT = async (ev) => {
         recalcLocal(tr.querySelector('input'));
       }
     }
+    cargarDia();
   };
   r.readAsText(file);
 };
