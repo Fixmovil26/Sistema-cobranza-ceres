@@ -5,27 +5,21 @@
 <title>FIX MOVIL</title>
 <style>
 :root {
-  --bg: #f8fbff;                    /* blanco muy suave con toque celeste */
+  --bg: #f8fbff;
   --bg-gradient: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
   --card: rgba(255, 255, 255, 0.92);
   --glass: rgba(255, 255, 255, 0.85);
-  --accent: #3b82f6;                /* azul principal */
-  --accent-light: #60a5fa;          /* azul celeste más claro */
+  --accent: #3b82f6;
+  --accent-light: #60a5fa;
   --accent-glow: rgba(59, 130, 246, 0.25);
-  --text: #0f172a;                  /* negro-azulado oscuro para texto */
+  --text: #0f172a;
   --text-soft: #475569;
   --border: rgba(59, 130, 246, 0.18);
-  --shadow: 0 4px 12px rgba(59, 130, 246, 0.08); /* Reducido shadow */
-  --shadow-hover: 0 8px 20px rgba(59, 130, 246, 0.12); /* Reducido */
+  --shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+  --shadow-hover: 0 8px 20px rgba(59, 130, 246, 0.12);
   --radius: 14px;
 }
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   background: var(--bg-gradient);
   color: var(--text);
@@ -34,29 +28,14 @@ body {
   padding: 1rem 0.5rem;
   font-size: 0.85rem;
 }
-
-/* Header con logo neón */
-.header {
-  text-align: center;
-  margin: 0.3rem 0 1.5rem;
-  position: relative;
-}
-
+.header { text-align: center; margin: 0.3rem 0 1.5rem; position: relative; }
 .logo-title {
   display: block;
   max-width: 250px;
   width: 70vw;
   margin: 0 auto 0.6rem;
-  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.25)); /* Reducido filter */
-  transition: none; /* Removido transition para optimización */
+  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.25));
 }
-
-.logo-title:hover {
-  transform: none; /* Removido scale */
-}
-
-/* Subtitle removido si no necesario, pero lo dejamos sin shadow */
-
 .subtitle {
   font-family: 'Orbitron', sans-serif;
   font-size: clamp(1rem, 3.5vw, 1.8rem);
@@ -66,21 +45,15 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: none; /* Removido shadow */
 }
-
-/* Cards / contenedores */
 .card, .section {
   background: var(--glass);
-  /* Removido backdrop-filter para optimización, ya que es pesado */
   border-radius: var(--radius);
   border: 1px solid var(--border);
   padding: 1rem 1.2rem;
   margin-bottom: 1.2rem;
   box-shadow: var(--shadow);
-  transition: none; /* Removido transition */
 }
-
 .calendar {
   display: flex;
   justify-content: center;
@@ -91,23 +64,9 @@ body {
   margin: 0 auto;
   max-width: 100%;
 }
-
-@media (min-width: 768px) {
-  .calendar {
-    justify-content: center;
-    max-width: 550px;
-  }
-}
-
-.calendar::-webkit-scrollbar {
-  height: 5px;
-}
-
-.calendar::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.35);
-  border-radius: 6px;
-}
-
+@media (min-width: 768px) { .calendar { max-width: 550px; } }
+.calendar::-webkit-scrollbar { height: 5px; }
+.calendar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.35); border-radius: 6px; }
 .day {
   min-width: 65px;
   padding: 0.6rem 0.5rem;
@@ -116,28 +75,17 @@ body {
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid var(--border);
   cursor: pointer;
-  transition: none; /* Removido transition */
   font-weight: 600;
   color: var(--text-soft);
   flex-shrink: 0;
   font-size: 0.8rem;
 }
-
-.day:hover {
-  background: rgba(96, 165, 250, 0.15);
-  transform: none; /* Removido translate */
-  box-shadow: none; /* Removido shadow */
-}
-
 .day.active {
   background: linear-gradient(135deg, #3b82f6, #60a5fa);
   color: white;
   border: none;
   box-shadow: 0 0 15px rgba(59, 130, 246, 0.35);
-  transform: none; /* Removido scale */
 }
-
-/* Inputs y select */
 input, select {
   width: 100%;
   padding: 0.7rem 1rem;
@@ -147,23 +95,12 @@ input, select {
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--text);
-  transition: none; /* Removido transition */
 }
-
 input:focus, select:focus {
   outline: none;
   border-color: var(--accent-light);
-  box-shadow: none; /* Removido shadow para optimización */
 }
-
-/* Checkbox más grande */
-input[type="checkbox"] {
-  transform: scale(1.5);
-  margin: 0 auto;
-  display: block;
-}
-
-/* Botones */
+input[type="checkbox"] { transform: scale(1.5); margin: 0 auto; display: block; }
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -171,7 +108,6 @@ input[type="checkbox"] {
   justify-content: center;
   margin: 1.2rem 0 1.5rem;
 }
-
 button {
   border: none;
   border-radius: 999px;
@@ -179,36 +115,25 @@ button {
   font-weight: 700;
   font-size: 0.8rem;
   cursor: pointer;
-  transition: none; /* Removido transition */
   position: relative;
   overflow: hidden;
 }
-
 button.primary {
   background: linear-gradient(90deg, #3b82f6, #60a5fa);
   color: white;
   box-shadow: 0 3px 12px rgba(59, 130, 246, 0.2);
 }
-
 button.secondary {
   background: white;
   color: var(--accent);
   border: 1px solid rgba(59, 130, 246, 0.2);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
-
-button:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-/* Tabla */
 table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 6px;
 }
-
 th {
   color: var(--accent);
   font-weight: 700;
@@ -216,72 +141,40 @@ th {
   padding: 0 0 0.6rem;
   font-size: 0.8rem;
 }
-
 td {
   background: rgba(255, 255, 255, 0.85);
   padding: 0.7rem 0.7rem;
   border-radius: 8px;
   border: 1px solid var(--border);
-  /* Removido backdrop-filter */
   font-size: 0.8rem;
   font-weight: 500;
 }
-
-tr.paid td {
-  background: rgba(34, 197, 94, 0.12);
-  border-color: rgba(34, 197, 94, 0.3);
-}
-
-tr.partial td {
-  background: rgba(245, 158, 11, 0.1);
-  border-color: rgba(245, 158, 11, 0.25);
-}
-
-tr.expense td {
-  background: rgba(239, 68, 68, 0.12);
-  border-color: rgba(239, 68, 68, 0.3);
-}
-
-/* Resumen */
+tr.paid td { background: rgba(34, 197, 94, 0.12); border-color: rgba(34, 197, 94, 0.3); }
+tr.partial td { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.25); }
+tr.expense td { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.3); }
 .resumen {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1rem;
   margin-top: 1.5rem;
 }
-
 .resumen div {
   background: var(--glass);
-  /* Removido backdrop-filter */
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1rem;
   text-align: center;
   box-shadow: var(--shadow);
-  transition: none;
   font-size: 0.85rem;
   font-weight: 600;
 }
-
-.resumen div:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-/* Nueva sección para búsqueda y filtro */
 .search-filter {
   display: flex;
   gap: 1rem;
   align-items: center;
 }
-
-.search-filter input {
-  flex: 1;
-}
-
-.search-filter select {
-  flex: 0.8;
-}
+.search-filter input { flex: 1; }
+.search-filter select { flex: 0.8; }
 </style>
 </head>
 <body>
@@ -305,6 +198,7 @@ tr.expense td {
   <button onclick="nuevoGasto()">💸 Nuevo gasto</button>
   <button class="alt" onclick="descargarTXT()">📄 TXT Diario</button>
   <button class="alt" onclick="descargarDeudores()">📄 TXT Deudores</button>
+  <button class="alt" onclick="descargarAdelantos()">TXT Adelanto</button>
   <button class="alt" onclick="document.getElementById('fileTXT').click()">📂 Cargar TXT</button>
   <button class="alt" onclick="enviarWhatsApp()">📲 TXT Cobrar</button>
   <button class="alt" onclick="resumenPreferenciales()">📊 Resumen Pref.</button>
@@ -337,14 +231,14 @@ tr.expense td {
   <div id="gastosDiv" style="display:none">💸 Gastos: S/ <span id="totalGastos">0</span></div>
   <div>💰 Total: S/ <span id="totalDia">0</span></div>
 </div>
-<!-- ================= FIREBASE ================= -->
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
   getFirestore, collection, addDoc, getDocs,
   query, where, deleteDoc, doc, updateDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-/* 🔥 TU CONFIG - REEMPLAZA CON TUS VALORES REALES DE FIREBASE */
+
 const firebaseConfig = {
   apiKey: "AIzaSyDn0Dlmu6JPdUKMW4jKx1ljdHp_wB2lJkg",
   authDomain: "fixmovil-26.firebaseapp.com",
@@ -358,9 +252,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const ventasCollection = collection(db, "ventas");
 const gastosCollection = collection(db, "gastos");
-/* ================= FECHA ================= */
+
 let selectedDate = new Date().toISOString().slice(0,10);
-/* ================= CALENDARIO ================= */
+
 const calendar = document.getElementById("calendar");
 function renderCalendar(){
   calendar.innerHTML="";
@@ -376,7 +270,7 @@ function renderCalendar(){
   }
 }
 renderCalendar();
-/* ================= NUEVA VENTA ================= */
+
 window.nuevaVenta = async () => {
   const ahora = new Date();
   const fh = ahora.toLocaleDateString('es-PE') + ' ' + ahora.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit', hour12: true}).replace('.', '');
@@ -420,21 +314,19 @@ window.nuevaVenta = async () => {
     });
     tr.dataset.id = docRef.id;
     tr.dataset.type = 'venta';
-  } catch (error) {
-    console.error("Error al agregar a Firebase: ", error);
-  }
+  } catch (error) { console.error("Error al agregar venta: ", error); }
   recalcLocal(tr.querySelector('input'));
 };
-/* ================= NUEVO GASTO ================= */
+
 window.nuevoGasto = async () => {
   const ahora = new Date();
   const fh = ahora.toLocaleDateString('es-PE') + ' ' + ahora.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit', hour12: true}).replace('.', '');
   const tr = document.createElement('tr');
   tr.classList.add('expense');
   tr.innerHTML = `
-<td>-</td>
-<td><input placeholder="Descripción" oninput="updLocalGasto(this)"></td>
-<td>-</td>
+<td><input type="checkbox" onchange="togglePantalla(this)"></td>
+<td><input placeholder="Descripción (pantalla fallada?)" oninput="updLocalGasto(this)"></td>
+<td><select onchange="updMetodoGasto(this)"><option value="efectivo">Efectivo</option><option value="yape">Yape</option></select></td>
 <td><input type="number" value="0" oninput="recalcGasto(this)"></td>
 <td>1</td>
 <td>${fh}</td>
@@ -449,23 +341,21 @@ window.nuevoGasto = async () => {
       fecha: selectedDate,
       descripcion: "",
       monto: 0,
+      metodo: "efectivo",
+      pantallaFallada: false,
       fechaHora: fh,
       timestamp: ahora.getTime()
     });
     tr.dataset.id = docRef.id;
     tr.dataset.type = 'gasto';
-  } catch (error) {
-    console.error("Error al agregar gasto a Firebase: ", error);
-  }
+  } catch (error) { console.error("Error al agregar gasto: ", error); }
 };
-/* ================= CARGAR DIA ================= */
+
 async function cargarDia(){
   const tbody = document.querySelector("#tabla tbody");
   tbody.innerHTML = "";
-  let ef = 0, ya = 0, gastos = 0;
+  let ef = 0, ya = 0, gastos = 0, gastos_ef = 0, gastos_ya = 0;
   let entries = [];
-
-  // Cargar ventas
   try {
     const qVentas = query(ventasCollection, where("fecha", "==", selectedDate));
     const snapVentas = await getDocs(qVentas);
@@ -473,11 +363,7 @@ async function cargarDia(){
       const v = d.data();
       entries.push({ ...v, id: d.id, type: 'venta', timestamp: v.timestamp || parseFechaHoraToTimestamp(v.fechaHora) });
     });
-  } catch (error) {
-    console.error("Error al cargar ventas: ", error);
-  }
-
-  // Cargar gastos
+  } catch (error) { console.error("Error al cargar ventas: ", error); }
   try {
     const qGastos = query(gastosCollection, where("fecha", "==", selectedDate));
     const snapGastos = await getDocs(qGastos);
@@ -485,14 +371,8 @@ async function cargarDia(){
       const g = d.data();
       entries.push({ ...g, id: d.id, type: 'gasto', timestamp: g.timestamp || parseFechaHoraToTimestamp(g.fechaHora) });
     });
-  } catch (error) {
-    console.error("Error al cargar gastos: ", error);
-  }
-
-  // Ordenar por timestamp ascendente
+  } catch (error) { console.error("Error al cargar gastos: ", error); }
   entries.sort((a, b) => a.timestamp - b.timestamp);
-
-  // Renderizar
   entries.forEach(entry => {
     const tr = document.createElement("tr");
     tr.dataset.id = entry.id;
@@ -525,9 +405,9 @@ async function cargarDia(){
     } else if (entry.type === 'gasto') {
       tr.classList.add("expense");
       tr.innerHTML = `
-<td>-</td>
+<td><input type="checkbox" ${entry.pantallaFallada ? 'checked' : ''} onchange="togglePantalla(this)"></td>
 <td><input value="${entry.descripcion || ''}" oninput="updLocalGasto(this)"></td>
-<td>-</td>
+<td><select onchange="updMetodoGasto(this)"><option value="efectivo" ${entry.metodo === "efectivo" ? 'selected' : ''}>Efectivo</option><option value="yape" ${entry.metodo === "yape" ? 'selected' : ''}>Yape</option></select></td>
 <td><input type="number" value="${entry.monto || 0}" oninput="recalcGasto(this)"></td>
 <td>1</td>
 <td>${entry.fechaHora || ''}</td>
@@ -537,47 +417,55 @@ async function cargarDia(){
 <td>Gasto</td>
 <td><button onclick="delLocal(this)">❌</button></td>`;
       gastos += entry.monto || 0;
+      if (entry.metodo === 'efectivo') gastos_ef += entry.monto || 0;
+      if (entry.metodo === 'yape') gastos_ya += entry.monto || 0;
     }
     tbody.appendChild(tr);
   });
-
-  document.getElementById("totalEfectivo").innerText = ef.toFixed(2);
-  document.getElementById("totalYape").innerText = ya.toFixed(2);
+  document.getElementById("totalEfectivo").innerText = (ef - gastos_ef).toFixed(2);
+  document.getElementById("totalYape").innerText = (ya - gastos_ya).toFixed(2);
   document.getElementById("totalGastos").innerText = gastos.toFixed(2);
-  document.getElementById("totalDia").innerText = ((ef - gastos) + ya).toFixed(2);
+  document.getElementById("totalDia").innerText = ((ef - gastos_ef) + (ya - gastos_ya)).toFixed(2);
   document.getElementById("gastosDiv").style.display = gastos > 0 ? 'block' : 'none';
   filtrarTabla();
 }
 cargarDia();
-/* ================= TOGGLE PREFERENCIAL ================= */
+
 window.togglePreferencial = (chk) => {
   const tr = chk.closest('tr');
   const id = tr.dataset.id;
   const preferencial = chk.checked;
-  if (id) {
-    updateDoc(doc(db, "ventas", id), {preferencial}).catch(err => console.error("Error updating preferencial: ", err));
-  }
+  if (id) updateDoc(doc(db, "ventas", id), {preferencial}).catch(err => console.error(err));
 };
-/* ================= UPDATE LOCAL Y SYNC (VENTAS) ================= */
+
 window.updLocal = (el) => {
   const tr = el.closest('tr');
   const id = tr.dataset.id;
   const field = el.parentElement.cellIndex === 1 ? 'cliente' : 'modelo';
-  const value = el.value;
-  if (id) {
-    updateDoc(doc(db, "ventas", id), {[field]: value}).catch(err => console.error("Error updating: ", err));
-  }
+  if (id) updateDoc(doc(db, "ventas", id), {[field]: el.value}).catch(err => console.error(err));
 };
-/* ================= UPDATE LOCAL Y SYNC (GASTOS) ================= */
+
 window.updLocalGasto = (el) => {
   const tr = el.closest('tr');
   const id = tr.dataset.id;
-  const value = el.value;
-  if (id) {
-    updateDoc(doc(db, "gastos", id), {descripcion: value}).catch(err => console.error("Error updating gasto: ", err));
-  }
+  if (id) updateDoc(doc(db, "gastos", id), {descripcion: el.value}).catch(err => console.error(err));
 };
-/* ================= RECALC LOCAL Y SYNC (VENTAS) ================= */
+
+window.updMetodoGasto = (el) => {
+  const tr = el.closest('tr');
+  const id = tr.dataset.id;
+  const metodo = el.value;
+  if (id) updateDoc(doc(db, "gastos", id), {metodo}).catch(err => console.error(err));
+  actualizarTotalesLocal();
+};
+
+window.togglePantalla = (chk) => {
+  const tr = chk.closest('tr');
+  const id = tr.dataset.id;
+  const pantallaFallada = chk.checked;
+  if (id) updateDoc(doc(db, "gastos", id), {pantallaFallada}).catch(err => console.error(err));
+};
+
 window.recalcLocal = (el) => {
   const tr = el.closest('tr');
   const id = tr.dataset.id;
@@ -594,21 +482,17 @@ window.recalcLocal = (el) => {
   if (estado === "Pagado") tr.classList.add("paid");
   else if (estado === "Pendiente" && (e + y > 0)) tr.classList.add("partial");
   actualizarTotalesLocal();
-  if (id) {
-    updateDoc(doc(db, "ventas", id), {precio: p, cantidad: c, efectivo: e, yape: y, saldo, estado}).catch(err => console.error("Error recalculando: ", err));
-  }
+  if (id) updateDoc(doc(db, "ventas", id), {precio: p, cantidad: c, efectivo: e, yape: y, saldo, estado}).catch(err => console.error(err));
 };
-/* ================= RECALC GASTO ================= */
+
 window.recalcGasto = (el) => {
   const tr = el.closest('tr');
   const id = tr.dataset.id;
   const monto = +el.value || 0;
-  if (id) {
-    updateDoc(doc(db, "gastos", id), {monto}).catch(err => console.error("Error recalculando gasto: ", err));
-  }
+  if (id) updateDoc(doc(db, "gastos", id), {monto}).catch(err => console.error(err));
   actualizarTotalesLocal();
 };
-/* ================= PAGOS LOCAL ================= */
+
 window.pagoCompletoLocal = (btn) => {
   const tr = btn.closest('tr');
   const p = +tr.querySelector('td:nth-child(4) input').value || 0;
@@ -619,40 +503,45 @@ window.pagoCompletoLocal = (btn) => {
   input.style.display = 'block';
   recalcLocal(input);
 };
+
 window.activarMonto = (btn) => {
   const i = btn.parentElement.querySelector('input');
   i.style.display = 'block';
   i.focus();
 };
-/* ================= ELIMINAR LOCAL ================= */
+
 window.delLocal = (btn) => {
   const tr = btn.closest('tr');
   const id = tr.dataset.id;
   const type = tr.dataset.type;
   if (id && confirm("¿Eliminar?")) {
-    deleteDoc(doc(db, type === 'venta' ? "ventas" : "gastos", id)).catch(err => console.error("Error eliminando: ", err));
+    deleteDoc(doc(db, type === 'venta' ? "ventas" : "gastos", id)).catch(err => console.error(err));
   }
   tr.remove();
   actualizarTotalesLocal();
 };
-/* ================= TOTALES LOCAL ================= */
+
 function actualizarTotalesLocal() {
-  let ef = 0, ya = 0, gastos = 0;
+  let ef = 0, ya = 0, gastos = 0, gastos_ef = 0, gastos_ya = 0;
   document.querySelectorAll('#tabla tbody tr').forEach(tr => {
     if (tr.dataset.type === 'venta') {
       ef += +tr.querySelector('td:nth-child(7) input')?.value || 0;
       ya += +tr.querySelector('td:nth-child(8) input')?.value || 0;
     } else if (tr.dataset.type === 'gasto') {
-      gastos += +tr.querySelector('td:nth-child(4) input')?.value || 0;
+      const monto = +tr.querySelector('td:nth-child(4) input')?.value || 0;
+      gastos += monto;
+      const metodo = tr.querySelector('td:nth-child(3) select')?.value || '';
+      if (metodo === 'efectivo') gastos_ef += monto;
+      if (metodo === 'yape') gastos_ya += monto;
     }
   });
-  document.getElementById("totalEfectivo").innerText = ef.toFixed(2);
-  document.getElementById("totalYape").innerText = ya.toFixed(2);
+  document.getElementById("totalEfectivo").innerText = (ef - gastos_ef).toFixed(2);
+  document.getElementById("totalYape").innerText = (ya - gastos_ya).toFixed(2);
   document.getElementById("totalGastos").innerText = gastos.toFixed(2);
-  document.getElementById("totalDia").innerText = ((ef - gastos) + ya).toFixed(2);
+  document.getElementById("totalDia").innerText = ((ef - gastos_ef) + (ya - gastos_ya)).toFixed(2);
   document.getElementById("gastosDiv").style.display = gastos > 0 ? 'block' : 'none';
 }
-/* ================= FILTRO ================= */
+
 window.filtrarTabla = () => {
   const filtro = document.getElementById("filtroEstado").value;
   document.querySelectorAll("#tabla tbody tr").forEach(tr => {
@@ -662,16 +551,12 @@ window.filtrarTabla = () => {
     }
     const estado = tr.querySelector("td:nth-child(10)").textContent;
     const isPref = tr.querySelector('input[type="checkbox"]').checked;
-    if (filtro === "Todo") {
-      tr.style.display = "";
-    } else if (filtro === "Preferencial") {
-      tr.style.display = isPref ? "" : "none";
-    } else {
-      tr.style.display = (estado === filtro) ? "" : "none";
-    }
+    if (filtro === "Todo") tr.style.display = "";
+    else if (filtro === "Preferencial") tr.style.display = isPref ? "" : "none";
+    else tr.style.display = (estado === filtro) ? "" : "none";
   });
 };
-/* ================= BUSCAR ================= */
+
 window.buscarCliente = () => {
   const q = document.getElementById("buscador").value.toLowerCase();
   document.querySelectorAll("#tabla tbody tr").forEach(r => {
@@ -679,26 +564,22 @@ window.buscarCliente = () => {
     r.style.display = text.includes(q) ? "" : "none";
   });
 };
-/* ================= LIMPIAR DÍA ================= */
+
 window.limpiarDia = async () => {
   if (confirm("¿Eliminar todas las ventas y gastos del día?")) {
     try {
       const qVentas = query(ventasCollection, where("fecha", "==", selectedDate));
       const snapVentas = await getDocs(qVentas);
       const deletesVentas = snapVentas.docs.map(d => deleteDoc(doc(db, "ventas", d.id)));
-
       const qGastos = query(gastosCollection, where("fecha", "==", selectedDate));
       const snapGastos = await getDocs(qGastos);
       const deletesGastos = snapGastos.docs.map(d => deleteDoc(doc(db, "gastos", d.id)));
-
       await Promise.all([...deletesVentas, ...deletesGastos]);
       await cargarDia();
-    } catch (error) {
-      console.error("Error al limpiar: ", error);
-    }
+    } catch (error) { console.error("Error al limpiar: ", error); }
   }
 };
-/* ================= DESCARGAR TXT DIARIO ================= */
+
 window.descargarTXT = async () => {
   let t = `COBRANZA DIARIA\nFECHA: ${selectedDate}\n----------------\n`;
   try {
@@ -715,15 +596,13 @@ window.descargarTXT = async () => {
     const snapGastos = await getDocs(qGastos);
     snapGastos.forEach(d => {
       const g = d.data();
-      t += `DESCRIPCIÓN: ${g.descripcion}\nMONTO: S/${g.monto}\nFECHA/HORA: ${g.fechaHora}\n----------------\n`;
+      t += `DESCRIPCIÓN: ${g.descripcion}\nMÉTODO: ${g.metodo ? g.metodo.toUpperCase() : 'NO ESPECIFICADO'}\nMONTO: S/${g.monto}\nFECHA/HORA: ${g.fechaHora}\n${g.pantallaFallada ? '→ Pantalla fallada' : ''}\n----------------\n`;
     });
     t += `RESUMEN\nEFECTIVO: S/${document.getElementById("totalEfectivo").innerText}\nYAPE: S/${document.getElementById("totalYape").innerText}\nGASTOS: S/${document.getElementById("totalGastos").innerText}\nTOTAL: S/${document.getElementById("totalDia").innerText}`;
     descargarArchivo(t, `cobranza_${selectedDate}.txt`);
-  } catch (error) {
-    console.error("Error: ", error);
-  }
+  } catch (error) { console.error("Error: ", error); }
 };
-/* ================= DESCARGAR TXT DEUDORES ================= */
+
 window.descargarDeudores = async () => {
   let t = `DEUDORES ${selectedDate}\n----------------\n`;
   try {
@@ -736,11 +615,28 @@ window.descargarDeudores = async () => {
       }
     });
     descargarArchivo(t, `deudores_${selectedDate}.txt`);
-  } catch (error) {
-    console.error("Error: ", error);
-  }
+  } catch (error) { console.error("Error: ", error); }
 };
-/* ================= ENVIAR WHATSAPP ================= */
+
+window.descargarAdelantos = async () => {
+  let t = `ADELANTOS ${selectedDate}\n----------------\n`;
+  let hay = false;
+  try {
+    const q = query(ventasCollection, where("fecha", "==", selectedDate));
+    const snap = await getDocs(q);
+    snap.forEach(d => {
+      const v = d.data();
+      const adelantado = (v.efectivo || 0) + (v.yape || 0);
+      if (adelantado > 0 && v.saldo > 0) {
+        hay = true;
+        t += `CLIENTE: ${v.cliente}\nMODELO: ${v.modelo}\nCANTIDAD: ${v.cantidad}\nFECHA/HORA: ${v.fechaHora}\nADELANTADO: S/${adelantado.toFixed(2)}\nSALDO: S/${v.saldo.toFixed(2)}\n----------------\n`;
+      }
+    });
+    if (!hay) { alert("No hay adelantos este día"); return; }
+    descargarArchivo(t, `adelantos_${selectedDate}.txt`);
+  } catch (error) { console.error("Error: ", error); }
+};
+
 window.enviarWhatsApp = async () => {
   let mensaje = `📌 *RECORDATORIO DE PAGO*\n\n`;
   let hay = false;
@@ -756,11 +652,9 @@ window.enviarWhatsApp = async () => {
     });
     if (!hay) { alert("No hay deudas pendientes"); return; }
     window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
-  } catch (error) {
-    console.error("Error: ", error);
-  }
+  } catch (error) { console.error("Error: ", error); }
 };
-/* ================= RESUMEN PREFERENCIALES ================= */
+
 window.resumenPreferenciales = async () => {
   let mensaje = `📊 *RESUMEN CLIENTES PREFERENCIALES*\nFECHA: ${selectedDate}\n\n`;
   let grupos = {};
@@ -785,11 +679,9 @@ window.resumenPreferenciales = async () => {
     }
     if (Object.keys(grupos).length === 0) { alert("No hay clientes preferenciales"); return; }
     window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
-  } catch (error) {
-    console.error("Error: ", error);
-  }
+  } catch (error) { console.error("Error: ", error); }
 };
-/* ================= PARSE FECHA HORA TO TIMESTAMP ================= */
+
 function parseFechaHoraToTimestamp(fh) {
   const [fecha, horaAmPm] = fh.split(' ');
   const [dia, mes, ano] = fecha.split('/');
@@ -800,7 +692,7 @@ function parseFechaHoraToTimestamp(fh) {
   const date = new Date(ano, mes - 1, dia, hora, min);
   return date.getTime();
 }
-/* ================= CARGAR TXT ================= */
+
 window.cargarTXT = async (ev) => {
   const file = ev.target.files[0];
   if (!file) return;
@@ -866,7 +758,7 @@ window.cargarTXT = async (ev) => {
   };
   r.readAsText(file);
 };
-/* ================= FUNCION DESCARGAR ARCHIVO ================= */
+
 function descargarArchivo(txt, n) {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([txt], {type: 'text/plain'}));
